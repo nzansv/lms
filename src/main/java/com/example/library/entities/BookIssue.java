@@ -41,8 +41,17 @@ public class BookIssue {
         this.issued_date = issued_date;
         this.return_date = return_date;
     }
-
     public BookIssue(){
+    }
 
+    @Override
+    public String toString() {
+        return "BookIssue{" +
+                "id=" + id +
+                ", member_id=" + member_id +
+                ", book_id=" + book_id +
+                ", issued_date='" + issued_date + '\'' +
+                ", return_date='" + return_date + '\'' +
+                '}';
     }
 }

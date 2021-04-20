@@ -16,12 +16,17 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "account_id")
     private Integer id;
-    @Column(name = "phone_number")
-    private String phone_number;
     @Column(name = "email")
     private String email;
 
-    @OneToOne(mappedBy="account",fetch=FetchType.LAZY)
+    @OneToOne(mappedBy="account",fetch = FetchType.EAGER, optional = false)
     private	Member	member;
 
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

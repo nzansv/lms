@@ -24,6 +24,20 @@ public class BookController {
         return bookRepository.findById(id).get();
     }
 
+    @GetMapping("/{author}")
+    public Book getBookByAuthor(@PathVariable("author") String author){
+        return bookRepository.getBookByAuthor(author);
+    }
+
+    @GetMapping("/{author}")
+    public Book getBookByTitle(@PathVariable("title") String title){
+        return bookRepository.getBookByTitle(title);
+    }
+
+    @GetMapping("/{status}")
+    public Book getBookByStatus(@PathVariable("status") String status){
+        return bookRepository.getBookByStatus(status);
+    }
 
     @PostMapping("")
     public Book createBook(@RequestBody Book book) {

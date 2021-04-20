@@ -1,6 +1,9 @@
 package com.example.library;
 
 import com.example.library.config.SpringConfiguration;
+import com.example.library.controller.BookController;
+import com.example.library.controller.MemberController;
+import com.example.library.controller.PublisherController;
 import com.example.library.entities.*;
 import com.example.library.services.*;
 
@@ -14,11 +17,13 @@ import java.text.SimpleDateFormat;
 public class LibraryApplication {
 
     public static AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SpringConfiguration.class);
-    public static BookService bookService = context.getBean(BookService.class);
-    public static MemberService memberService = context.getBean(MemberService.class);
     public static BookIssueService bookIssueService = context.getBean(BookIssueService.class);
     public static BookReservationService bookReservationService = context.getBean(BookReservationService.class);
     public static PublisherService publisherService = context.getBean(PublisherService.class);
+    public static BookController bookController = context.getBean(BookController.class);
+    public static MemberController memberController = context.getBean(MemberController.class);
+    public static PublisherController publisherController = context.getBean(PublisherController.class);
+
     public static Scanner in = new Scanner(System.in);
 
 
@@ -41,44 +46,30 @@ public class LibraryApplication {
 
                     int list;
 
-                    System.out.println("1. Catalogue by Genre");
-                    System.out.println("2. Catalogue by Author");
-                    System.out.println("3. All available books");
-                    System.out.println("4. All books");
+                    System.out.println("1. Search by Author or Title");
+                    System.out.println("2. All available books");
+                    System.out.println("3. All books");
 
                     list = in.nextInt();
                     in.nextLine();
 
                     switch (list) {
                         case 1:
-                            System.out.println("Available Genres: 1.Novel     2.Fantasy    3.Crime    4.Crime");
-                            Integer genre_id = in.nextInt();
-                            for(Book book : bookService.getAll()){
-                                for(Genre genre : book.getGenres()){
-                                    if(genre.getId()==genre_id){
-                                        System.out.println(book.toString());
-                                    }
-                                }
+                            System.out.println("Input Author or Title: ");
+                            String kw = in.nextLine();
+                            if(bookController.getBookByAuthor(kw)!=null) {
+                                System.out.println(bookController.getBookByAuthor(kw));
+                            }
+                            else {
+                                System.out.println(bookController.getBookByTitle(kw));
                             }
                             break;
                         case 2:
-                            System.out.println("Inout Author: ");
-                            String author = in.nextLine();
-                            for(Book book : bookService.getAll()){
-                                    if(book.getAuthor().equals(author)){
-                                        System.out.println(book.toString());
-                                }
-                            }
+                            String status = "available";
+                            System.out.println(bookController.getBookByStatus(status));
                             break;
                         case 3:
-                            for(Book book : bookService.getAll()){
-                                if(book.getAuthor().equals("available")){
-                                    System.out.println(book.toString());
-                                }
-                            }
-                            break;
-                        case 4:
-                            System.out.println(bookService.getAll());
+                            System.out.println(bookController.getAllBooks());
                             break;
                     }
                     break;
@@ -88,13 +79,13 @@ public class LibraryApplication {
                     in.nextLine();
 
                     System.out.println("All books: ");
-                    System.out.println(bookService.getAll());
+                    System.out.println(bookController.getAllBooks());
 
                     System.out.println("Book's ID: ");
                     Integer book_id = in.nextInt();
 
-                    Member member = memberService.getById(member_id);
-                    Book book = bookService.getById(book_id);
+                    Member member = memberController.getMemberById(member_id);
+                    Book book = bookController.getBookById(book_id);
 
                     SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
                     Date date = new Date(System.currentTimeMillis());
@@ -135,7 +126,7 @@ public class LibraryApplication {
                             System.out.println(bookReservationService.getAll());
                             break;
                         case 3:
-                            System.out.println(memberService.getAll());
+                            System.out.println(memberController.getAllMembers());
                             break;
                         case 4:
                             System.out.println(publisherService.getAll());

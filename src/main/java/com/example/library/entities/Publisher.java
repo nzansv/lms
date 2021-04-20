@@ -18,12 +18,20 @@ public class Publisher {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "publisher", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "publisher", fetch = FetchType.EAGER)
     private List<Book> books;
 
     public Publisher(String name) {
         this.name = name;
     }
     public Publisher(){
+    }
+
+    @Override
+    public String toString() {
+        return "Publisher{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

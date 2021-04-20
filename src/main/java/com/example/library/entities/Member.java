@@ -20,7 +20,7 @@ public class Member {
     @Column(name = "account_id")
     private Integer account_id;
 
-    @OneToOne(fetch=FetchType.LAZY,	optional=false)
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name="account_id",nullable=false, insertable = false, updatable = false)
     private	Account	account;
 
@@ -28,6 +28,6 @@ public class Member {
         this.id = id;
         this.fullname = fullname;
     }
-
     public Member(){}
+
 }
